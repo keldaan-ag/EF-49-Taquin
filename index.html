@@ -5,7 +5,7 @@
     <title>Le jeu du taquin !</title>
   </head>
   <body>
-    <canvas id="canvas" width="600" height="600"></canvas>
+    <canvas id="canvas" width="600" height="600" style="border : 1px solid black"></canvas>
 
 <script>
 
@@ -13,26 +13,39 @@ var api_key = 'AIzaSyDzDkv9g2y3YiudOwazvdkVEfC0LhYvS5Q';
 var img     = new Image();
 var canvas  = document.getElementById('canvas');
 var context = canvas.getContext('2d');
-img.src     = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=37.530101,38.600062&zoom=14&size=600x600&key="+api_key;
+img.src     = "img/staticmap.png";
 L_img       = [[]];
 
 img.addEventListener('load', function() {
         context.drawImage(img, 0, 0);
+        create_obj();
         init();
     });
 
+
 function init() {
-    create_obj();
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  draw_image();
 }
 
+function draw_image(){
+  for (var i = 0; i < 4; i++) {
+      for (var j = 0; j < 4; j++) {
+          context.putImageData(L_img[i,j].data,L_img[i,j].x,L_img[i,j].y)
+      }
+  }
+}
 
 function create_obj(){
-    for (var i = 1; i < 5; i++) {
-        for (var j = 1; j < 5; j++) {
-          L_img[i,j] = {
-              x : i * canvas.width  / 5,
-              y : j * canvas.height / 5,
-              data:ctx.getImageData(x,y,40,40)};
+    for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) {
+            L_img[i,j] = {
+                  x    : i * canvas.width  / 4,
+                  y    : j * canvas.height / 4,
+                  data : context.getImageData(i*canvas.width/4 , j*canvas.height/4 ,150,150)};
+            console.log(L_img[i,j].data);
+            console.log(L_img[i,j].x);
+            console.log(L_img[i,j].y);
         }
     }
 }
