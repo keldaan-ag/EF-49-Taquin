@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Le jeu du taquin !</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+
+<script>
+
+var api_key = 'AIzaSyDzDkv9g2y3YiudOwazvdkVEfC0LhYvS5Q';
+var img     = new Image();
+var canvas  = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+img.src     = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=37.530101,38.600062&zoom=14&size=600x600&key="+api_key;
+L_img       = [[]];
+
+img.addEventListener('load', function() {
+        context.drawImage(img, 0, 0);
+        init();
+    });
+
+function init() {
+    create_obj();
+}
+
+
+function create_obj(){
+    for (var i = 1; i < 5; i++) {
+        for (var j = 1; j < 5; j++) {
+          L_img[i,j] = {
+              x : i * canvas.width  / 5,
+              y : j * canvas.height / 5,
+              data:ctx.getImageData(x,y,40,40)};
+        }
+    }
+}
+</script>
+
+  </body>
+</html>
