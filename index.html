@@ -3,52 +3,128 @@
   <head>
     <meta charset="utf-8">
     <title>Le jeu du taquin !</title>
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <canvas id="canvas" width="600" height="600" style="border : 1px solid black"></canvas>
+    <canvas id="canvas" width="600" height="600"></canvas>
 
 <script>
 
-var api_key = 'AIzaSyDzDkv9g2y3YiudOwazvdkVEfC0LhYvS5Q';
-var img     = new Image();
-var canvas  = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-img.src     = "img/staticmap.png";
-L_img       = [[]];
+var api_key     = 'AIzaSyDzDkv9g2y3YiudOwazvdkVEfC0LhYvS5Q';
+var img         = new Image();
+var gris        = new Image();
+var canvas      = document.getElementById('canvas');
+var context     = canvas.getContext('2d');
+img.src         = "img/visage.jpg";
+gris.src        = "img/gris.jpg";
+L_img           = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+var img_ready   = false;
+var gris_ready  = false;
+var gris_x      = 0;
+var gris_y      = 0;
 
 img.addEventListener('load', function() {
-        context.drawImage(img, 0, 0);
-        create_obj();
+        context.drawImage(img,0,0,600,600);
+        img_ready = true;
         init();
     });
 
+gris.addEventListener('load',function(){
+        context.drawImage(gris,0,0);
+        gris_ready = true;
+        init();
+})
+
+addEventListener("keyup", function(e){
+  switch(e.keyCode) {
+    case 38:
+        to_up()
+        break;
+    case 37:
+        to_left()
+        break;
+    case 40:
+        to_down()
+        break;
+    case 39:
+        to_right()
+        break;
+   }
+})
+
 
 function init() {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  draw_image();
+  if(img_ready && gris_ready){
+        create_objs();
+        draw_image();
+        console.log(L_img);
+  }
+}
+
+function to_right(){
+    if(gris_x<3){
+        temp                           = L_img[gris_x + 1][gris_y].data
+        L_img[gris_x + 1][gris_y].data = L_img[gris_x][gris_y].data
+        L_img[gris_x][gris_y].data     = temp
+        gris_x                        += 1
+        draw_image()
+      }
+}
+
+function to_left(){
+    if(gris_x>0){
+        temp                           = L_img[gris_x - 1][gris_y].data
+        L_img[gris_x - 1][gris_y].data = L_img[gris_x][gris_y].data
+        L_img[gris_x][gris_y].data     = temp
+        gris_x                        -= 1
+        draw_image()
+      }
+}
+
+function to_up(){
+  if(gris_y>0){
+        temp                           = L_img[gris_x][gris_y - 1].data
+        L_img[gris_x][gris_y - 1].data = L_img[gris_x][gris_y].data
+        L_img[gris_x][gris_y].data     = temp
+        gris_y                        -= 1
+        draw_image()
+      }
+}
+
+function to_down(){
+  if(gris_y<3){
+        temp                           = L_img[gris_x][gris_y + 1].data
+        L_img[gris_x][gris_y + 1].data = L_img[gris_x][gris_y].data
+        L_img[gris_x][gris_y].data     = temp
+        gris_y                        += 1
+        draw_image()
+      }
 }
 
 function draw_image(){
+  context.clearRect(0, 0, canvas.width, canvas.height);
   for (var i = 0; i < 4; i++) {
       for (var j = 0; j < 4; j++) {
-          context.putImageData(L_img[i,j].data,L_img[i,j].x,L_img[i,j].y)
+          context.putImageData(L_img[i][j].data,L_img[i][j].x,L_img[i][j].y)
       }
   }
 }
 
-function create_obj(){
+function create_objs(){
     for (var i = 0; i < 4; i++) {
         for (var j = 0; j < 4; j++) {
-            L_img[i,j] = {
+            L_img[i][j] = {
                   x    : i * canvas.width  / 4,
                   y    : j * canvas.height / 4,
                   data : context.getImageData(i*canvas.width/4 , j*canvas.height/4 ,150,150)};
-            console.log(L_img[i,j].data);
-            console.log(L_img[i,j].x);
-            console.log(L_img[i,j].y);
         }
     }
 }
+
+function do_bordel() {
+
+}
+
 </script>
 
   </body>
