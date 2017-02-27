@@ -29,7 +29,8 @@ canvas{
 }
 
 header{
-  padding-top:1%;
+  display:flex;
+  flex-direction:column;
 	width:100%;
 	height:10%;
 	background: #606c88; /* fallback for old browsers */
@@ -41,7 +42,10 @@ header{
 	box-shadow: 0 10px 6px -3px #777;
 	text-align: center;
 }
-
+h1{
+	margin:0;
+	padding:0;
+}
 
 h2{
 	color : #887c60;
