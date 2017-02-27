@@ -9,7 +9,9 @@ body{
   padding:0;
 background: #fff;
 }
-
+canvas{
+	border : 5px solid #d2d6df;
+}
 .wrap{
 	display: flex;
 	justify-content: space-around;
