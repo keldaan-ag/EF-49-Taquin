@@ -1,16 +1,17 @@
-
+var L_history  = [];
 var api_key     = 'AIzaSyDzDkv9g2y3YiudOwazvdkVEfC0LhYvS5Q';
 var img         = new Image();
 var gris        = new Image();
 var canvas      = document.getElementById('canvas');
 var context     = canvas.getContext('2d');
-img.src         = "img/visage.jpg";
+img.src         = "img/lena.jpg";
 gris.src        = "img/gris.jpg";
 L_img           = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
 var img_ready   = false;
 var gris_ready  = false;
 var gris_x      = 0;
 var gris_y      = 0;
+var step        = 0;
 
 img.addEventListener('load', function() {
   // on attend que notre image principale ait été chargé et on la dessine dans notre canvas
@@ -34,6 +35,7 @@ function init() {
         create_objs();
         do_bordel();
         draw_image();
+        step = L_history.length-1;
         console.log(L_img);
   }
 }
@@ -45,6 +47,7 @@ function to_right(){
         L_img[gris_x + 1][gris_y].data = L_img[gris_x][gris_y].data
         L_img[gris_x][gris_y].data     = temp
         gris_x                        += 1
+        L_history.push(to_left)
         draw_image()
       }
 }
@@ -57,6 +60,7 @@ function to_left(){
         L_img[gris_x][gris_y].data     = temp
         gris_x                        -= 1
         draw_image()
+        L_history.push(to_right)
       }
 }
 
@@ -68,6 +72,7 @@ function to_up(){
         L_img[gris_x][gris_y].data     = temp
         gris_y                        -= 1
         draw_image()
+        L_history.push(to_down)
       }
 }
 
@@ -79,6 +84,7 @@ function to_down(){
         L_img[gris_x][gris_y].data     = temp
         gris_y                        += 1
         draw_image()
+        L_history.push(to_up)
       }
 }
 
@@ -145,16 +151,33 @@ addEventListener("keyup", function(e){
   //Dès qu'une touche a été detecté, on enclenche la méthode correspondante
   switch(e.keyCode) {
     case 38:
-        to_up()
+        to_down();
         break;
     case 37:
-        to_left()
+        to_right();
         break;
     case 40:
-        to_down()
+        to_up();
         break;
     case 39:
-        to_right()
+        to_left();
         break;
    }
 })
+
+
+function resolve() {
+    L_history[step]();
+    step--;
+    if(step >= 0){
+      window.setTimeout(resolve, 200);
+    }
+    else {
+      L_history=[]
+    }
+}
+
+function button_resolve() {
+    step = L_history.length-1
+    resolve()
+}

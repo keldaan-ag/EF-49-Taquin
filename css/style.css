@@ -1,7 +1,66 @@
-html,body{
-
+html{
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
 }
-canvas{
-	display: block;
-  margin : 20px auto;
+body{
+  height: 100%;
+  margin:0px;
+  padding:0;
+background: #fff;
+}
+
+.wrap{
+	display: flex;
+	justify-content: space-around;
+}
+
+#settings{
+	width:10%;
+	padding: 30px;
+	border : 5px solid #d2d6df;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+
+header{
+  padding-top:1%;
+	width:100%;
+	height:10%;
+	background: #606c88; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #606c88 , #3f4c6b); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #606c88 , #3f4c6b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	color :#fff;
+	margin-bottom: 1%;
+	-webkit-box-shadow: 0 10px 6px -6px #777;
+	box-shadow: 0 10px 6px -3px #777;
+	text-align: center;
+}
+
+
+h2{
+	color : #887c60;
+}
+h3{
+	color : #fff;
+}
+button{
+	background:#606c88;
+	border-radius: 10px;
+	border: none;
+	box-shadow: 0 10px 6px -3px #777;
+	transition: background .3s;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+button:hover{
+	background: #6d1010;
+}
+button:active{
+	box-shadow: 0 0 0;
+	transform: translateY(5px);
+	-webkit-transform: translateY(5px);
 }
