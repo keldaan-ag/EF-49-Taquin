@@ -15,7 +15,8 @@ canvas{
 .wrap{
 	display: flex;
 	justify-content: space-around;
-	margin-top:5%; 
+	margin-top:5%;
+  margin-bottom: 5%;
 }
 
 #settings{
@@ -31,13 +32,13 @@ canvas{
 header{
   display:flex;
   flex-direction:column;
+  justify-content: center;
 	width:100%;
 	height:10%;
 	background: #606c88; /* fallback for old browsers */
 	background: -webkit-linear-gradient(to left, #606c88 , #3f4c6b); /* Chrome 10-25, Safari 5.1-6 */
 	background: linear-gradient(to left, #606c88 , #3f4c6b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 	color :#fff;
-	margin-bottom: 1%;
 	-webkit-box-shadow: 0 10px 6px -6px #777;
 	box-shadow: 0 10px 6px -3px #777;
 	text-align: center;
