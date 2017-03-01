@@ -12,6 +12,8 @@ var gris_ready  = false;
 var gris_x      = 0;
 var gris_y      = 0;
 var step        = 0;
+var lat         = 0;
+var long        = 0;
 
 img.addEventListener('load', function() {
   // on attend que notre image principale ait été chargé et on la dessine dans notre canvas
@@ -26,18 +28,53 @@ gris.addEventListener('load',function(){
         gris_ready = true;
         init();
 })
-function create_url(lat,long) {
+
+function button_geocode() {
+    lieu = document.getElementById('lieu').value
+    get_geocode(lieu)
+}
+function get_geocode(lieu){
+  //on utilise Find nearby populated place / reverse geocoding pour trouver un lieu à proximité
+  $.ajax({
+      type: 'GET',
+      dataType: 'json',
+      url: create_url_geocode(lieu),
+      crossDomain: true,
+      complete: function (data) {
+             if (data.readyState === 4 && data.status === 200) {
+                console.log(data.responseJSON);
+                lat  = data.responseJSON.results[0].geometry.location.lat
+                long = data.responseJSON.results[0].geometry.location.lng
+                create_img()
+            }
+            else{
+              alert("Veuillez rentrer un nom de ville sans espace svp")
+            }
+      }
+    })
+}
+
+function create_url_geocode(lieu) {
+      var url = "https://maps.googleapis.com/maps/api/geocode/json?address="
+        url  += lieu
+        url  += "&key="
+        url  += api_key
+      console.log(url);
+      return url
+}
+
+function create_url_img() {
       var url = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center="
       url    +=  lat  + ","
       url    +=  long
-      url    +=  "&zoom=14&size=600x600&key="
+      url    +=  "&zoom=12&size=600x600&key="
       url    +=  api_key
       console.log(url);
       return url
 }
 
 function create_img() {
-      img.src = create_url(47.613690, 1.368898)
+      img.src = create_url_img()
 }
 
 function init() {
@@ -49,7 +86,6 @@ function init() {
         do_bordel();
         draw();
         step = L_history.length-1;
-        console.log(gris_x,gris_y);
   }
 }
 
@@ -126,7 +162,6 @@ function to_down(){
 }
 
 function draw() {
-  console.log(gris_x,gris_y);
   draw_image()
   draw_gris()
 }

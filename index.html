@@ -4,6 +4,7 @@
     <meta charset = "utf-8">
     <title>Le jeu du taquin !</title>
     <link rel = "stylesheet" href = "css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
     <header>
@@ -13,6 +14,9 @@
         <canvas id = "canvas" width = "600" height = "600"></canvas>
         <script src = 'js/taquin.js'></script>
         <div id="settings">
+          <h2>Et si on allait à ?</h2>
+          <input type="text" name="" value="" id="lieu">
+          <button type="button" name="button" onclick="button_geocode()"><h3>C'est parti</h3></button>
           <h2>Instructions</h2>
           <p>Déplacer les images à l'aide des touches directionnelles du clavier</p>
           <h2>Options</h2>

@@ -11,6 +11,8 @@ background: #fff;
 }
 canvas{
 	border : 5px solid #d2d6df;
+  width: 600px;
+  height:600px;
 }
 .wrap{
 	display: flex;
@@ -19,7 +21,7 @@ canvas{
 }
 
 #settings{
-	width:10%;
+	width:20%;
 	padding: 30px;
 	border : 5px solid #d2d6df;
 	display: flex;
