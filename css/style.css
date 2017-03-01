@@ -15,8 +15,7 @@ canvas{
 .wrap{
 	display: flex;
 	justify-content: space-around;
-	margin-top:5%;
-  margin-bottom: 5%;
+	margin-top:2%;
 }
 
 #settings{
