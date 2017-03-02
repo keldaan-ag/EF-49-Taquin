@@ -30,11 +30,13 @@ gris.addEventListener('load',function(){
 })
 
 function button_geocode() {
+	//fonction onclick du bouton "c'est parti !", elle lance le géocoding du lieu
     lieu = document.getElementById('lieu').value
     get_geocode(lieu)
 }
+
 function get_geocode(lieu){
-  //on utilise Find nearby populated place / reverse geocoding pour trouver un lieu à proximité
+  //Géocodage, on prend un lieu en entrée et on en sort la latitude et la longitude
   $.ajax({
       type: 'GET',
       dataType: 'json',
@@ -48,15 +50,16 @@ function get_geocode(lieu){
                 create_img()
             }
             else{
-              alert("Veuillez rentrer un nom de ville sans espace svp")
+              alert("Aucun lieu n'a été reconnu dans ce que vous avez tapé")
             }
       }
     })
 }
 
 function create_url_geocode(lieu) {
+	// créé l'url envoyé au serveur map
       var url = "https://maps.googleapis.com/maps/api/geocode/json?address="
-        url  += lieu
+        url  += lieu.split(' ').join('+');
         url  += "&key="
         url  += api_key
       console.log(url);
@@ -64,6 +67,7 @@ function create_url_geocode(lieu) {
 }
 
 function create_url_img() {
+	// créé l'url envoyé au service de map static
       var url = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center="
       url    +=  lat  + ","
       url    +=  long
@@ -74,6 +78,7 @@ function create_url_img() {
 }
 
 function create_img() {
+	//créé un nouvelle image
       img.src = create_url_img()
 }
 
@@ -162,6 +167,7 @@ function to_down(){
 }
 
 function draw() {
+	//refresh l'affichage du canvas en dessinant les changements
   draw_image()
   draw_gris()
 }
@@ -185,6 +191,7 @@ function draw_image(){
   }
 }
 function draw_gris(){
+	//affiche le petit carré blanc
   context.clearRect(gris_x*150,
                     gris_y*150,
                     150,
@@ -272,6 +279,7 @@ addEventListener("keyup", function(e){
 
 
 function resolve() {
+	// fonction de résolution auto
     L_history[step]();
     step--;
     if(step >= 0){
@@ -283,6 +291,7 @@ function resolve() {
 }
 
 function button_resolve() {
+	// function onclick lancé par le bouton "Résolution automatique"
     step = L_history.length-1
     resolve()
 }
