@@ -67,7 +67,7 @@ function create_url_img() {
       var url = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center="
       url    +=  lat  + ","
       url    +=  long
-      url    +=  "&zoom=12&size=600x600&key="
+      url    +=  "&zoom=14&size=600x600&key="
       url    +=  api_key
       console.log(url);
       return url
