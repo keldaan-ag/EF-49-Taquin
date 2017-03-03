@@ -37,6 +37,19 @@ function button_geocode() {
     lieu = document.getElementById('lieu').value
     get_geocode(lieu)
 }
+canvas.addEventListener("click",function(e){
+        var mousePos = getMousePos(canvas, e);
+        var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+		console.log(message)
+})
+
+function getMousePos(canvas, e) {
+	var rect = canvas.getBoundingClientRect();
+	return {
+	  x: e.clientX - rect.left,
+	  y: e.clientY - rect.top
+	};
+}
 
 function get_geocode(lieu){
   //Géocodage, on prend un lieu en entrée et on en sort la latitude et la longitude
