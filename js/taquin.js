@@ -4,7 +4,7 @@ var img         = new Image();
 var gris        = new Image();
 var canvas      = document.getElementById('canvas');
 var context     = canvas.getContext('2d');
-img.src         = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=37.530101,38.600062&zoom=14&size=600x600&key=" + api_key;
+img.src         = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=-16.5004126,-151.7414904&zoom=12&size=600x600&key=" + api_key;
 gris.src        = "img/gris.jpg";
 L_img           = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
 var img_ready   = false;
@@ -14,6 +14,9 @@ var gris_y      = 0;
 var step        = 0;
 var lat         = 0;
 var long        = 0;
+var east        = 0;
+var west        = 0;
+var zoom        = 0;
 
 img.addEventListener('load', function() {
   // on attend que notre image principale ait été chargé et on la dessine dans notre canvas
@@ -45,8 +48,11 @@ function get_geocode(lieu){
       complete: function (data) {
              if (data.readyState === 4 && data.status === 200) {
                 console.log(data.responseJSON);
-                lat  = data.responseJSON.results[0].geometry.location.lat
-                long = data.responseJSON.results[0].geometry.location.lng
+                lat   = data.responseJSON.results[0].geometry.location.lat
+                long  = data.responseJSON.results[0].geometry.location.lng
+				east  = data.responseJSON.results[0].geometry.viewport.northeast.lat;
+				west  = data.responseJSON.results[0].geometry.viewport.southwest.lat;
+				zoom  = Math.round(Math.log(960 * 360 / Math.abs(east-west) / 256) / Math.LN2) - 2;
                 create_img()
             }
             else{
@@ -71,7 +77,9 @@ function create_url_img() {
       var url = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center="
       url    +=  lat  + ","
       url    +=  long
-      url    +=  "&zoom=14&size=600x600&key="
+      url    +=  "&zoom="
+	  url    +=  zoom
+	  url    +=  "&size=600x600&key="
       url    +=  api_key
       console.log(url);
       return url
