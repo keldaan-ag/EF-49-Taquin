@@ -41,8 +41,30 @@ canvas.addEventListener("click",function(e){
         var mousePos = getMousePos(canvas, e);
         var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
 		console.log(message)
+		var click_x = Math.trunc(mousePos.x/150)
+		var click_y = Math.trunc(mousePos.y/150)
+		message = 'Mouse position: ' + click_x + ',' + click_y;
+		console.log(message)
+		move(click_x,click_y)
 })
+function move(click_x,click_y){
+	var dx = gris_x - click_x
+	var dy = gris_y - click_y
+	if (dx==0 & dy==0){
+	}
+	if (dx==0){
+		if(dy>0){move_gris(to_up,dy)}
+		else{move_gris(to_down,Math.abs(dy))}
+	}	
+	if (dy==0){
+		if(dx>0){move_gris(to_left,dx)}
+		else{move_gris(to_right,Math.abs(dx))}
+	}
+}
 
+function move_gris(method,n){
+	for(var i = 0; i < n; i++){method()}
+}
 function getMousePos(canvas, e) {
 	var rect = canvas.getBoundingClientRect();
 	return {
