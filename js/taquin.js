@@ -55,7 +55,7 @@ function move(click_x,click_y){
 	if (dx==0){
 		if(dy>0){move_gris(to_up,dy)}
 		else{move_gris(to_down,Math.abs(dy))}
-	}	
+	}
 	if (dy==0){
 		if(dx>0){move_gris(to_left,dx)}
 		else{move_gris(to_right,Math.abs(dx))}
@@ -269,7 +269,7 @@ function create_objs(){
 function do_bordel() {
   // on mélange les pièces du puzzle en réalisant
   // un ensemble de mouvements aléatoires compris entre 20 et 40
-    var random_1 = Math.floor((Math.random() * 20) + 20);
+    var random_1 = Math.floor((Math.random() * 20) + 100);
     var random_2 = Math.floor((Math.random() * 5));
     for (var i = 0; i < random_1; i++) {
       random_2 = Math.floor((Math.random() * 4));
