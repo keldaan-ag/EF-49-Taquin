@@ -1,11 +1,17 @@
+// Projet réalisé par Arnaud Grégoire
+// Téléchargeable à l'adresse
+// https://github.com/arnaudgregoire/EF-49-Taquin
+
 var L_history  = [];
 var api_key     = 'AIzaSyDzDkv9g2y3YiudOwazvdkVEfC0LhYvS5Q';
 var img         = new Image();
 var gris        = new Image();
 var canvas      = document.getElementById('canvas');
 var context     = canvas.getContext('2d');
+// La vue initiale est faite sur Bora-bora
 img.src         = "https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=-16.5004126,-151.7414904&zoom=12&size=600x600&key=" + api_key;
 gris.src        = "img/gris.jpg";
+//L_img contiendra les objets "imagettes"
 L_img           = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
 var img_ready   = false;
 var gris_ready  = false;
@@ -26,7 +32,7 @@ img.addEventListener('load', function() {
     });
 
 gris.addEventListener('load',function(){
-  // on attend que le petit carré gris mobile ait été chargé et on le dessine dans notre canvas
+  // on attend que le petit carré blanc mobile ait été chargé et on le dessine dans notre canvas
         context.drawImage(gris,0,0,100,100,0,0,100,100);
         gris_ready = true;
         init();
@@ -38,34 +44,40 @@ function button_geocode() {
     get_geocode(lieu)
 }
 canvas.addEventListener("click",function(e){
-        var mousePos = getMousePos(canvas, e);
-        var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-		console.log(message)
+  // on écoute les clics de l'utilisateur sur le canvas et on les lance les méthodes de déplacements des imagettes correspondantes
+    var mousePos = getMousePos(canvas, e);
+    var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
 		var click_x = Math.trunc(mousePos.x/150)
 		var click_y = Math.trunc(mousePos.y/150)
 		message = 'Mouse position: ' + click_x + ',' + click_y;
-		console.log(message)
 		move(click_x,click_y)
 })
+
+
 function move(click_x,click_y){
-	var dx = gris_x - click_x
-	var dy = gris_y - click_y
-	if (dx==0 & dy==0){
-	}
-	if (dx==0){
-		if(dy>0){move_gris(to_up,dy)}
-		else{move_gris(to_down,Math.abs(dy))}
-	}
-	if (dy==0){
-		if(dx>0){move_gris(to_left,dx)}
-		else{move_gris(to_right,Math.abs(dx))}
-	}
+    // Calcule le nombre et le type de méthodes de déplacements que requiert le clic de l'utilisateur
+	  var dx = gris_x - click_x
+  	var dy = gris_y - click_y
+  	if (dx==0 & dy==0){
+  	}
+  	if (dx==0){
+  		if(dy>0){move_gris(to_up,dy)}
+  		else{move_gris(to_down,Math.abs(dy))}
+  	}
+  	if (dy==0){
+  		if(dx>0){move_gris(to_left,dx)}
+  		else{move_gris(to_right,Math.abs(dx))}
+  	}
 }
 
 function move_gris(method,n){
+  // appelle les différentes méthodes de déplacements que nécessite le clic de l'utilisateur
 	for(var i = 0; i < n; i++){method()}
 }
+
+
 function getMousePos(canvas, e) {
+  // récupère les coordonnées du curseur dans le canvas
 	var rect = canvas.getBoundingClientRect();
 	return {
 	  x: e.clientX - rect.left,
@@ -83,11 +95,13 @@ function get_geocode(lieu){
       complete: function (data) {
              if (data.readyState === 4 && data.status === 200) {
                 console.log(data.responseJSON);
+                //les coordonnées latiude/longitude du lieu
                 lat   = data.responseJSON.results[0].geometry.location.lat
                 long  = data.responseJSON.results[0].geometry.location.lng
-				east  = data.responseJSON.results[0].geometry.viewport.northeast.lat;
-				west  = data.responseJSON.results[0].geometry.viewport.southwest.lat;
-				zoom  = Math.round(Math.log(960 * 360 / Math.abs(east-west) / 256) / Math.LN2) - 2;
+                //le niveau de zoom
+        				east  = data.responseJSON.results[0].geometry.viewport.northeast.lat;
+        				west  = data.responseJSON.results[0].geometry.viewport.southwest.lat;
+        				zoom  = Math.round(Math.log(960 * 360 / Math.abs(east-west) / 256) / Math.LN2) - 2;
                 create_img()
             }
             else{
@@ -98,7 +112,7 @@ function get_geocode(lieu){
 }
 
 function create_url_geocode(lieu) {
-	// créé l'url envoyé au serveur map
+	// créé l'url envoyé au serveur map geocode
       var url = "https://maps.googleapis.com/maps/api/geocode/json?address="
         url  += lieu.split(' ').join('+');
         url  += "&key="
@@ -131,7 +145,7 @@ function init() {
         L_img     = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
         L_history = [];
         create_objs();
-        do_bordel();
+        shuffle();
         draw();
         step = L_history.length-1;
   }
@@ -266,9 +280,9 @@ function create_objs(){
     }
 }
 
-function do_bordel() {
+function shuffle() {
   // on mélange les pièces du puzzle en réalisant
-  // un ensemble de mouvements aléatoires compris entre 20 et 40
+  // un ensemble de mouvements aléatoires compris entre 100 et 120
     var random_1 = Math.floor((Math.random() * 20) + 100);
     var random_2 = Math.floor((Math.random() * 5));
     for (var i = 0; i < random_1; i++) {
@@ -326,7 +340,7 @@ function resolve() {
     L_history[step]();
     step--;
     if(step >= 0){
-      window.setTimeout(resolve, 200);
+      window.setTimeout(resolve, 100);
     }
     else {
       L_history=[]
