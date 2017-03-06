@@ -283,6 +283,7 @@ function create_objs(){
 function shuffle() {
   // on mélange les pièces du puzzle en réalisant
   // un ensemble de mouvements aléatoires compris entre 100 et 120
+    set_gris();
     var random_1 = Math.floor((Math.random() * 20) + 100);
     var random_2 = Math.floor((Math.random() * 5));
     for (var i = 0; i < random_1; i++) {
