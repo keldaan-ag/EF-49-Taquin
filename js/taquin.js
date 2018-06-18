@@ -4,7 +4,7 @@
  * @see <a href="https://github.com/arnaudgregoire/EF-49-Taquin">https://github.com/arnaudgregoire/EF-49-Taquin</a>
  */
 var L_history  = [];
-var api_key     = 'AIzaSyDzDkv9g2y3YiudOwazvdkVEfC0LhYvS5Q';
+var api_key     = 'ur api key';
 var img         = new Image();
 var gris        = new Image();
 var canvas      = document.getElementById('canvas');
